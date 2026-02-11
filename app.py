@@ -58,4 +58,4 @@ with gr.Blocks(theme=theme, title="Medical AI Agent") as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch(theme=theme)
+    demo.launch(theme=theme, share=True)
