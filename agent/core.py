@@ -13,7 +13,7 @@ class MedicalAgent:
         self.client = Groq(api_key=self.api_key)
         
         # Using Llama 3.3 70B on Groq for ultra-fast, high-quality medical responses
-        self.model_id = "llama-3.3-70b-specdec" 
+        self.model_id = "llama-3.3-70b-versatile" 
         self.system_instruction = (
             "You are an advanced Medical AI Assistant. Your goal is to provide accurate, "
             "helpful, and empathetic medical information based on available datasets. "
