@@ -12,8 +12,8 @@ class MedicalAgent:
         
         self.client = genai.Client(api_key=self.api_key)
         
-        # Using Gemini 3 Flash (Latest version in 2026)
-        self.model_id = "gemini-3-flash-preview"
+        # Using Gemini 1.5 Flash (Higher free-tier limits: 1,500 requests/day)
+        self.model_id = "gemini-1.5-flash"
         self.system_instruction = (
             "You are an advanced Medical AI Assistant. Your goal is to provide accurate, "
             "helpful, and empathetic medical information based on available datasets. "
@@ -26,12 +26,16 @@ class MedicalAgent:
     def get_response(self, user_input, context=""):
         prompt = f"User Question: {user_input}\n\nRelevant Medical Context/Data: {context}"
         
-        # Using the simplified generate_content method for standard chat interaction
-        response = self.client.models.generate_content(
-            model=self.model_id,
-            contents=prompt,
-            config={
-                "system_instruction": self.system_instruction
-            }
-        )
-        return response.text
+        try:
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=user_input, # Use user_input directly for better context handling
+                config={
+                    "system_instruction": self.system_instruction
+                }
+            )
+            return response.text
+        except Exception as e:
+            if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+                return "🏥 The Medical Assistant is currently handling many users. Please wait a few moments and try your question again. (Gemini API limit reached)"
+            return f"An unexpected error occurred: {str(e)}"
