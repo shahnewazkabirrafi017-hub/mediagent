@@ -12,8 +12,8 @@ class MedicalAgent:
         
         self.client = genai.Client(api_key=self.api_key)
         
-        # Using Gemini 1.5 Flash (Higher free-tier limits: 1,500 requests/day)
-        self.model_id = "gemini-1.5-flash"
+        # Using Gemini 1.5 Flash (Correct ID for google-genai library)
+        self.model_id = 'gemini-1.5-flash'
         self.system_instruction = (
             "You are an advanced Medical AI Assistant. Your goal is to provide accurate, "
             "helpful, and empathetic medical information based on available datasets. "
