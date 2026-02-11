@@ -1,4 +1,4 @@
-google-generativeai
+google-genai
 datasets
 pandas
 gradio==5.15.0
