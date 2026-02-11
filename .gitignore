@@ -11,6 +11,10 @@ data/cache/
 *.json
 *.parquet
 
+# Allow PWA assets
+!pwa_assets/
+!pwa_assets/**
+
 # IDEs
 .vscode/
 .idea/
