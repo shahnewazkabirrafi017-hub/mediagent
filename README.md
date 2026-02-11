@@ -1,3 +1,14 @@
+---
+title: MediAgent
+emoji: 🏥
+colorFrom: blue
+colorTo: slate
+sdk: gradio
+sdk_version: 5.0.0
+app_file: app.py
+pinned: false
+---
+
 # Medical AI Agent
 
 A powerful, conversational medical agent built using **Google Gemini 1.5 Flash** and medical datasets from **Hugging Face (OpenMed)**.
