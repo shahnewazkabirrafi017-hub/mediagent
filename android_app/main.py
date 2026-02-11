@@ -9,7 +9,7 @@ def main(page: ft.Page):
 
     # Your Hugging Face Space URL
     # We use the direct "embed" version for a cleaner mobile look
-    HF_URL = "https://rafi11223-mediagent.hf.space"
+    HF_URL = "https://rafi11223-medi-agent.hf.space/?__theme=light"
 
     # Native Mobile UI Components
     def on_window_event(e):
