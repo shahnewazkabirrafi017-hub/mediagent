@@ -54,9 +54,8 @@ with gr.Blocks(theme=theme, title="Medical AI Agent") as demo:
     
     chatbot = gr.ChatInterface(
         fn=medical_chat_interface,
-        examples=["What are common symptoms of iron deficiency?", "How can I improve my sleep hygiene?", "Explain what hypertension is in simple terms."],
-        type="messages"
+        examples=["What are common symptoms of iron deficiency?", "How can I improve my sleep hygiene?", "Explain what hypertension is in simple terms."]
     )
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(theme=theme)
