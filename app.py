@@ -67,7 +67,9 @@ with gr.Blocks(theme=theme, title="Medical AI Agent", head=head) as demo:
     
     chatbot = gr.ChatInterface(
         fn=medical_chat_interface,
-        examples=["What are common symptoms of iron deficiency?", "Explain hypertension in simple terms."]
+        type="messages",
+        examples=["What are common symptoms of iron deficiency?", "Explain hypertension in simple terms."],
+        cache_examples=False  # Crucial fix for Hugging Face port conflict
     )
 
 # FastAPI app for serving PWA assets
