@@ -4,3 +4,7 @@ pandas
 gradio
 python-dotenv
 huggingface_hub
+fastapi
+uvicorn
+python-multipart
+Pillow
