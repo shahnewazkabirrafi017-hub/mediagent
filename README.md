@@ -2,7 +2,7 @@
 title: MediAgent
 emoji: 🏥
 colorFrom: blue
-colorTo: slate
+colorTo: indigo
 sdk: gradio
 sdk_version: 5.4.0
 pinned: false
