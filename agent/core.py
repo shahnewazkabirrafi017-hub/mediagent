@@ -12,9 +12,9 @@ class MedicalAgent:
         
         genai.configure(api_key=self.api_key)
         
-        # Using Gemini 1.5 Flash for speed and generous free tier
+        # Using Gemini 3 Flash (Latest free version in 2026)
         self.model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
+            model_name="gemini-3-flash-preview",
             system_instruction=(
                 "You are an advanced Medical AI Assistant. Your goal is to provide accurate, "
                 "helpful, and empathetic medical information based on available datasets. "

@@ -46,7 +46,7 @@ with gr.Blocks(theme=theme, title="Medical AI Agent") as demo:
         # 🏥 Medical AI Assistant
         Developed by **[shahnewazkabirrafi017-hub](https://github.com/shahnewazkabirrafi017-hub)**
         
-        This agent is grounded in the **OpenMed** dataset collection and powered by **Gemini 1.5 Flash**.
+        This agent is grounded in the **OpenMed** dataset collection and powered by **Gemini 3 Flash**.
         
         *⚠️ Disclaimer: This is an AI tool for educational purposes. Consult a doctor for medical advice.*
         """
