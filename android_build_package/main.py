@@ -1,5 +1,4 @@
 import flet as ft
-import os
 
 def main(page: ft.Page):
     page.title = "MediAgent AI"
@@ -8,14 +7,16 @@ def main(page: ft.Page):
     page.window_height = 800
     page.padding = 0
 
-    # The production URL of your AI Agent (Embed version is more stable for mobile)
-    HF_URL = "https://huggingface.co/spaces/rafi11223/Medi-Agent?embed=true"
+    # The most stable URL for mobile embedding
+    HF_URL = "https://huggingface.co/spaces/rafi11223/Medi-Agent?embed=true&__theme=light"
 
-    # Minimal UI for the WebView
+    # The WebView component
     webview = ft.WebView(
         HF_URL,
         expand=True,
         javascript_enabled=True,
+        on_page_started=lambda _: print("Loading MediAgent..."),
+        on_page_ended=lambda _: print("MediAgent Ready!"),
     )
 
     page.add(webview)

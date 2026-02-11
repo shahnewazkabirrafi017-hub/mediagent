@@ -8,18 +8,14 @@ def main(page: ft.Page):
     page.padding = 0
 
     # Your Hugging Face Space URL
-    # We use the direct "embed" version for a cleaner mobile look
-    HF_URL = "https://rafi11223-medi-agent.hf.space/?__theme=light"
-
-    # Native Mobile UI Components
-    def on_window_event(e):
-        if e.data == "close":
-            page.window_destroy()
+    # Using the embed version ensures the mobile app doesn't show the Hugging Face header
+    HF_URL = "https://huggingface.co/spaces/rafi11223/Medi-Agent?embed=true&__theme=light"
 
     # The WebView component that holds the AI Agent
     webview = ft.WebView(
         HF_URL,
         expand=True,
+        javascript_enabled=True,
         on_page_started=lambda _: print("Loading Medi-Agent..."),
         on_page_ended=lambda _: print("Medi-Agent Ready!"),
     )
@@ -27,6 +23,4 @@ def main(page: ft.Page):
     page.add(webview)
 
 if __name__ == "__main__":
-    # To run locally for testing: flet run android_app/main.py
-    # To build APK: flet build apk
     ft.app(target=main)
