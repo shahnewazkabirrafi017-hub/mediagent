@@ -17,8 +17,8 @@ A powerful, conversational medical agent built using **Google Gemini 1.5 Flash**
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/shahnewazkabirrafi017-hub/medical-ai-agent.git
-   cd medical-ai-agent
+   git clone https://github.com/shahnewazkabirrafi017-hub/mediagent.git
+   cd mediagent
    ```
 
 2. **Install dependencies:**
