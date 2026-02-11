@@ -7,22 +7,28 @@ def main(page: ft.Page):
     page.window_height = 800
     page.padding = 0
 
-    # Using the direct app URL instead of the Space wrapper for better performance in WebView
-    HF_URL = "https://rafi11223-medi-agent.hf.space/?__theme=light"
+    HF_URL = "https://rafi11223-medi-agent.hf.space"
 
-    # The WebView component
+    loading_text = ft.Text("🏥 Starting Medical Assistant...", size=16, weight=ft.FontWeight.BOLD)
+    
+    def on_page_ended(e):
+        loading_text.visible = False
+        page.update()
+
     webview = ft.WebView(
         HF_URL,
         expand=True,
         javascript_enabled=True,
-        # Setting a common user agent can help bypass some security blocks in WebViews
-        user_agent="Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36",
-        on_page_started=lambda _: print("Loading Medi-Agent..."),
-        on_page_ended=lambda _: print("Medi-Agent Ready!"),
-        on_web_resource_error=lambda e: print(f"Page error: {e.description}"),
+        on_page_ended=on_page_ended,
     )
 
-    page.add(webview)
+    page.add(
+        ft.Column(
+            [ft.Container(height=40), loading_text, webview],
+            expand=True,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER
+        )
+    )
 
 if __name__ == "__main__":
     ft.app(target=main)
