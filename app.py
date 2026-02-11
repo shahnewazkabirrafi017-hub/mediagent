@@ -2,6 +2,9 @@ import gradio as gr
 from agent.core import MedicalAgent
 from data.loader import fetch_med_dialog_sample, format_dialogue_context
 import os
+from fastapi import FastAPI
+from fastapi.responses import FileResponse
+import uvicorn
 
 # Globals
 agent = None
@@ -36,7 +39,23 @@ def medical_chat_interface(message, history):
 # Custom Theme
 theme = gr.themes.Soft(primary_hue="blue")
 
-with gr.Blocks(theme=theme, title="Medical AI Agent") as demo:
+# PWA Head Tags
+head = """
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#2563eb">
+<link rel="apple-touch-icon" href="/icon-192x192.png">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('Service Worker registered', reg))
+        .catch(err => console.error('Service Worker registration failed', err));
+    });
+  }
+</script>
+"""
+
+with gr.Blocks(theme=theme, title="Medical AI Agent", head=head) as demo:
     gr.Markdown(
         """
         # 🏥 Medical AI Assistant
@@ -51,5 +70,28 @@ with gr.Blocks(theme=theme, title="Medical AI Agent") as demo:
         examples=["What are common symptoms of iron deficiency?", "Explain hypertension in simple terms."]
     )
 
+# FastAPI app for serving PWA assets
+app = FastAPI()
+
+@app.get("/manifest.json")
+async def manifest():
+    return FileResponse("pwa_assets/manifest.json")
+
+@app.get("/sw.js")
+async def sw():
+    return FileResponse("pwa_assets/sw.js", media_type="application/javascript")
+
+@app.get("/icon-192x192.png")
+async def icon192():
+    return FileResponse("pwa_assets/icon-192x192.png")
+
+@app.get("/icon-512x512.png")
+async def icon512():
+    return FileResponse("pwa_assets/icon-512x512.png")
+
+# Mount Gradio app
+app = gr.mount_gradio_app(app, demo, path="/")
+
 if __name__ == "__main__":
-    demo.launch()
+    port = int(os.environ.get("PORT", 7860))
+    uvicorn.run(app, host="0.0.0.0", port=port)
