@@ -36,8 +36,13 @@ jobs:
         run: |
           yes | flet build apk android_build_package --project "MediAgent" --org "com.mediagent" --no-rich-output --yes
 
+      - name: List files for debugging
+        run: |
+          find . -name "*.apk"
+          ls -R
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: mediagent-android-app
-          path: build/apk/*.apk
+          path: "**/*.apk"
