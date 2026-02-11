@@ -8,13 +8,14 @@ def main(page: ft.Page):
     page.window_height = 800
     page.padding = 0
 
-    # The production URL of your AI Agent
-    HF_URL = "https://rafi11223-medi-agent.hf.space/?__theme=light"
+    # The production URL of your AI Agent (Embed version is more stable for mobile)
+    HF_URL = "https://huggingface.co/spaces/rafi11223/Medi-Agent?embed=true"
 
     # Minimal UI for the WebView
     webview = ft.WebView(
         HF_URL,
         expand=True,
+        javascript_enabled=True,
     )
 
     page.add(webview)
