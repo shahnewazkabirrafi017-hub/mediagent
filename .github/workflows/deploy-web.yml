@@ -1,0 +1,78 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Create Web Wrapper
+        run: |
+          cat <<EOF > index.html
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+              <title>MediAgent AI</title>
+              <link rel="manifest" href="manifest.json">
+              <meta name="theme-color" content="#2563eb">
+              <style>
+                  body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #f8fafc; font-family: sans-serif; }
+                  iframe { width: 100%; height: 100%; border: none; }
+                  #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: white; z-index: 100; transition: opacity 0.5s; }
+                  .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #2563eb; border-radius: 50%; animation: spin 1s linear infinite; }
+                  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  p { margin-top: 15px; color: #1e293b; font-weight: bold; }
+              </style>
+          </head>
+          <body>
+              <div id="loader">
+                  <div class="spinner"></div>
+                  <p>🏥 Loading Medical Assistant...</p>
+              </div>
+              <iframe 
+                  id="app-frame"
+                  src="https://rafi11223-medi-agent.hf.space/?__theme=light" 
+                  allow="microphone; camera; clipboard-write; geolocation"
+                  onload="document.getElementById('loader').style.opacity='0'; setTimeout(() => document.getElementById('loader').style.display='none', 500);">
+              </iframe>
+              <script>
+                  if ('serviceWorker' in navigator) {
+                      window.addEventListener('load', () => {
+                          navigator.serviceWorker.register('sw.js').catch(err => console.log('SW failed', err));
+                      });
+                  }
+              </script>
+          </body>
+          </html>
+          EOF
+
+      - name: Copy PWA Assets
+        run: |
+          cp pwa_assets/manifest.json .
+          cp pwa_assets/sw.js .
+          cp pwa_assets/icon-192x192.png .
+          cp pwa_assets/icon-512x512.png .
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
