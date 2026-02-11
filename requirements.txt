@@ -1,4 +1,4 @@
-google-genai
+groq
 datasets
 pandas
 gradio==5.15.0

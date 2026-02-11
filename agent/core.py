@@ -1,4 +1,4 @@
-from google import genai
+from groq import Groq
 import os
 from dotenv import load_dotenv
 
@@ -6,14 +6,14 @@ load_dotenv()
 
 class MedicalAgent:
     def __init__(self, api_key=None):
-        self.api_key = api_key or os.getenv("GEMINI_API_KEY")
+        self.api_key = api_key or os.getenv("GROQ_API_KEY")
         if not self.api_key:
-            raise ValueError("GEMINI_API_KEY not found. Please set it in your environment or .env file.")
+            raise ValueError("GROQ_API_KEY not found. Please set it in your environment or .env file.")
         
-        self.client = genai.Client(api_key=self.api_key)
+        self.client = Groq(api_key=self.api_key)
         
-        # Using Gemini 1.5 Flash (Correct ID for google-genai library)
-        self.model_id = 'gemini-1.5-flash'
+        # Using Llama 3.3 70B on Groq for ultra-fast, high-quality medical responses
+        self.model_id = "llama-3.3-70b-specdec" 
         self.system_instruction = (
             "You are an advanced Medical AI Assistant. Your goal is to provide accurate, "
             "helpful, and empathetic medical information based on available datasets. "
@@ -24,18 +24,18 @@ class MedicalAgent:
         )
 
     def get_response(self, user_input, context=""):
-        prompt = f"User Question: {user_input}\n\nRelevant Medical Context/Data: {context}"
-        
         try:
-            response = self.client.models.generate_content(
+            completion = self.client.chat.completions.create(
                 model=self.model_id,
-                contents=user_input, # Use user_input directly for better context handling
-                config={
-                    "system_instruction": self.system_instruction
-                }
+                messages=[
+                    {"role": "system", "content": self.system_instruction},
+                    {"role": "user", "content": f"Context: {context}\n\nQuestion: {user_input}"}
+                ],
+                temperature=0.7,
+                max_tokens=1024,
             )
-            return response.text
+            return completion.choices[0].message.content
         except Exception as e:
-            if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
-                return "🏥 The Medical Assistant is currently handling many users. Please wait a few moments and try your question again. (Gemini API limit reached)"
-            return f"An unexpected error occurred: {str(e)}"
+            if "429" in str(e) or "rate_limit" in str(e).lower():
+                return "🏥 The Medical Assistant is currently handling many users. Please wait a few moments. (Groq API limit reached)"
+            return f"An unexpected error occurred with Groq: {str(e)}"
