@@ -63,10 +63,10 @@ jobs:
 
       - name: Copy PWA Assets
         run: |
-          cp pwa_assets/manifest.json .
-          cp pwa_assets/sw.js .
-          cp pwa_assets/icon-192x192.png .
-          cp pwa_assets/icon-512x512.png .
+          [ -f pwa_assets/manifest.json ] && cp pwa_assets/manifest.json . || echo "manifest.json not found"
+          [ -f pwa_assets/sw.js ] && cp pwa_assets/sw.js . || echo "sw.js not found"
+          [ -f pwa_assets/icon-192x192.png ] && cp pwa_assets/icon-192x192.png . || echo "icon192 not found"
+          [ -f pwa_assets/icon-512x512.png ] && cp pwa_assets/icon-512x512.png . || echo "icon512 not found"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
