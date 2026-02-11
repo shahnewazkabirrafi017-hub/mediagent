@@ -1,9 +1,9 @@
 google-generativeai
 datasets
 pandas
-gradio==5.16.0
+gradio==5.15.0
 python-dotenv
-huggingface_hub
+huggingface_hub==0.28.1
 fastapi
 uvicorn
 python-multipart
