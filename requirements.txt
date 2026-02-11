@@ -1,0 +1,6 @@
+google-generativeai
+datasets
+pandas
+gradio
+python-dotenv
+huggingface_hub
